@@ -1,0 +1,25 @@
+name: version-unit-test
+
+on:
+  push:
+    branches:
+      - version
+
+
+jobs:
+  unit-test:
+    runs-on: ubuntu-latest
+    strategy:
+      max-parallel: 1
+      matrix:
+        python-version: ['3.8','3.9','pypy3.8','pypy3.9']
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Django Unit Test
+        run: |
+          pip install -r windows-requirements.txt
+          python src/manage.py test --settings common.settings.build --debug-mode --no-input ./src/**/

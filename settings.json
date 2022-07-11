@@ -8,6 +8,13 @@
             "PASSWORD": "ably-api-password*",
             "PORT": "7998"
         },
+        "BUILD": {
+            "HOST": "183.101.173.206",
+            "USER": "ably-api",
+            "DATABASE": "ably",
+            "PASSWORD": "ably-api-password*",
+            "PORT": "7998"
+        },
         "PRODUCTION": {
             "HOST": "mysql",
             "USER": "ably-api",
@@ -19,6 +26,11 @@
     "REDIS": {
         "LOCAL": {
             "URL": "redis://127.0.0.1",
+            "PASSWORD": "ably-password@",
+            "PORT": "7999"
+        },
+        "BUILD": {
+            "URL": "redis://183.101.173.206",
             "PASSWORD": "ably-password@",
             "PORT": "7999"
         },

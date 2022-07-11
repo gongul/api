@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   ably-api:
-    image: gongul/ably-api:alpha
+    image: gongul/ably-api:latest
     container_name: ably-api
     ports:
       - 11111:3000
