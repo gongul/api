@@ -1,0 +1,31 @@
+{
+    "SECRET_KEY": "awgeg4789aw4eg84waegawwd",
+    "MYSQL": {
+        "LOCAL": {
+            "HOST": "127.0.0.1",
+            "USER": "ably-api",
+            "DATABASE": "ably",
+            "PASSWORD": "ably-api-password*",
+            "PORT": "7998"
+        },
+        "PRODUCTION": {
+            "HOST": "mysql",
+            "USER": "ably-api",
+            "DATABASE": "ably",
+            "PASSWORD": "ably-api-password*",
+            "PORT": "3306"
+        }
+    },
+    "REDIS": {
+        "LOCAL": {
+            "URL": "redis://127.0.0.1",
+            "PASSWORD": "ably-password@",
+            "PORT": "7999"
+        },
+        "PRODUCTION": {
+            "URL": "redis://redis",
+            "PASSWORD": "ably-password@",
+            "PORT": "6379"
+        }
+    }
+}

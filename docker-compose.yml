@@ -1,0 +1,62 @@
+version: '3.8'
+
+services:
+  ably-api:
+    image: gongul/ably-api:alpha
+    container_name: ably-api
+    ports:
+      - 11111:3000
+    networks:
+      - vpc
+    command:
+      [
+        "gunicorn",
+        "common.wsgi.production:application",
+        "-k",
+        "gevent",
+        "--max-requests",
+        "1000",
+        "--max-requests-jitter",
+        "60",
+        "--bind",
+        "0.0.0.0:3000"
+      ]
+  redis:
+    image: redis:alpine
+    command: redis-server --requirepass ably-password@ --port 6379
+    container_name: ably-redis
+    labels:
+      - "name=redis"
+      - "mode=standalone"
+    ports:
+      - 7999:6379
+    volumes:
+      - redis-data:/data
+    networks:
+      - vpc
+  mysql:
+    image: mysql:5.7
+    container_name: ably-mysql
+    volumes:
+      - mysql-data:/var/lib/mysql
+      - ./dump.sql:/docker-entrypoint-initdb.d/dump.sql
+    environment:
+      - MYSQL_ROOT_PASSWORD=ably-root-password!
+      - MYSQL_DATABASE=ably
+      - MYSQL_USER=ably-api
+      - MYSQL_PASSWORD=ably-api-password*
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+    ports:
+      - 7998:3306
+    networks:
+      - vpc
+
+networks:
+  vpc:
+    driver: bridge
+
+volumes:
+  redis-data:
+  mysql-data:
