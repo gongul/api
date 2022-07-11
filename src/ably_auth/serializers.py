@@ -24,6 +24,39 @@ def get_unix_time(dt):
     return unix_time
 
 
+class JwtTokenGenerator():
+    def create_access_token(self, email, token_header={}):
+        exp = get_unix_time(timezone.localtime() + datetime.timedelta(minutes=30))
+
+        token_header['email'] = email
+        token_header['exp'] = exp
+        token_header['type'] = TokenType.ACCESS_TOKEN
+
+        return self.encode(token_header)
+
+    def create_refresh_token(self, email, token_header={}):
+        exp = get_unix_time(timezone.localtime() + datetime.timedelta(hours=12))
+
+        token_header['email'] = email
+        token_header['exp'] = exp
+        token_header['type'] = TokenType.REFRESH_TOKEN
+
+        return self.encode(token_header)
+
+    def encode(self, payload):
+        return jwt.encode(payload, settings.SECRET_KEY, algorithm='HS256')
+
+    def decode(self, token):
+        try:
+            data = jwt.decode(token, settings.SECRET_KEY, algorithms=['HS256'])
+
+            return data
+        except jwt.ExpiredSignatureError:
+            raise exceptions.AuthenticationFailed('만료된 토큰입니다.')
+        except jwt.PyJWTError:
+            raise exceptions.AuthenticationFailed('잘못된 토큰입니다.')
+
+
 class SmsCertificationNumber():
     @staticmethod
     def validate(phone_number, certification_number):
@@ -69,39 +102,6 @@ class VerifySmsCertificationNumberSerializer(serializers.Serializer):
         SmsCertificationNumber.validate(attrs['phone_number'], attrs['certification_number'])
 
         return attrs
-
-
-class JwtTokenGenerator():
-    def create_access_token(self, email, token_header={}):
-        exp = get_unix_time(timezone.localtime() + datetime.timedelta(minutes=30))
-
-        token_header['email'] = email
-        token_header['exp'] = exp
-        token_header['type'] = TokenType.ACCESS_TOKEN
-
-        return self.encode(token_header)
-
-    def create_refresh_token(self, email, token_header={}):
-        exp = get_unix_time(timezone.localtime() + datetime.timedelta(hours=12))
-
-        token_header['email'] = email
-        token_header['exp'] = exp
-        token_header['type'] = TokenType.REFRESH_TOKEN
-
-        return self.encode(token_header)
-
-    def encode(self, payload):
-        return jwt.encode(payload, settings.SECRET_KEY, algorithm='HS256')
-
-    def decode(self, token):
-        try:
-            data = jwt.decode(token, settings.SECRET_KEY, algorithms=['HS256'])
-
-            return data
-        except jwt.ExpiredSignatureError:
-            raise exceptions.AuthenticationFailed('만료된 토큰입니다.')
-        except jwt.PyJWTError:
-            raise exceptions.AuthenticationFailed('잘못된 토큰입니다.')
 
 
 class CreateJwtTokenSerializer(JwtTokenGenerator, serializers.Serializer):

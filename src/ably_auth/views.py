@@ -9,10 +9,12 @@ from .serializers import CreateJwtTokenSerializer, RefreshJwtTokenSerializer, Se
 @method_decorator(extend_schema(operation_id='sms 인증 번호 발송'), name="post")
 class SendSmsCertificationNumberView(generics.CreateAPIView):
     serializer_class = SendSmsCertificationNumberSerializer
+    authentication_classes = []
 
 
 class VerifySmsCertificationNumberView(generics.GenericAPIView):
     serializer_class = VerifySmsCertificationNumberSerializer
+    authentication_classes = []
 
     @extend_schema(operation_id='sms 인증 번호 검증')
     def post(self, request, *args, **kwargs):
@@ -25,10 +27,12 @@ class VerifySmsCertificationNumberView(generics.GenericAPIView):
 @method_decorator(extend_schema(operation_id='토큰 발급'), name="post")
 class CreateJwtTokenView(generics.CreateAPIView):
     serializer_class = CreateJwtTokenSerializer
+    authentication_classes = []
 
 
 class VerifyJwtTokenView(generics.GenericAPIView):
     serializer_class = VerifyJwtTokenSerializer
+    authentication_classes = []
 
     @extend_schema(operation_id='토큰 검증')
     def post(self, request, *args, **kwargs):
@@ -40,6 +44,7 @@ class VerifyJwtTokenView(generics.GenericAPIView):
 
 class RefreshJwtTokenView(generics.GenericAPIView):
     serializer_class = RefreshJwtTokenSerializer
+    authentication_classes = []
 
     @extend_schema(operation_id='토큰 재발급')
     def post(self, request, *args, **kwargs):

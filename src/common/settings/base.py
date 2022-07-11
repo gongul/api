@@ -97,7 +97,8 @@ REST_FRAMEWORK = {
     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
     'PAGE_SIZE': 10,
     'DEFAULT_AUTHENTICATION_CLASSES': ['ably_auth.authentications.JSONWebTokenAuthentication'],
-    'EXCEPTION_HANDLER': 'common.middleware.custom_exception_handler'
+    'EXCEPTION_HANDLER': 'common.middleware.custom_exception_handler',
+    'TEST_REQUEST_DEFAULT_FORMAT': 'json'
 }
 
 

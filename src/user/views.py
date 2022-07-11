@@ -27,7 +27,6 @@ class ResetPasswordView(mixins.UpdateModelMixin, generics.GenericAPIView):
     queryset = User.objects.all()
     serializer_class = ResetPasswordSerializer
     authentication_classes = []
-    permission_classes = [IsAuthenticated, IsUserOwner]
 
     @extend_schema(operation_id='비밀번호 초기화')
     def post(self, request, *args, **kwargs):
