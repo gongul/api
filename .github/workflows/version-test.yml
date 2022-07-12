@@ -21,5 +21,5 @@ jobs:
           python-version: ${{ matrix.python-version }}
       - name: Django Unit Test
         run: |
-          pip install -r windows-requirements.txt
+          pip install -r requirements.txt
           python src/manage.py test --settings common.settings.build --debug-mode --no-input ./src/**/
