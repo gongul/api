@@ -22,4 +22,4 @@ jobs:
       - name: Django Unit Test
         run: |
           pip install -r requirements.txt
-          python src/manage.py test --settings common.settings.build --debug-mode --no-input ./src/**/
+          python src/manage.py test --settings common.settings.build --no-input ./src/**/
