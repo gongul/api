@@ -10,14 +10,14 @@ from .models import User
 from .serializers import ResetPasswordSerializer, SignupSerializer, UserSerializer
 
 
-@method_decorator(extend_schema(operation_id='유저 디테일'), name="get")
+@method_decorator(extend_schema(summary='유저 디테일'), name="get")
 class UserRetrieveView(generics.RetrieveAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     permission_classes = [IsAuthenticated, IsUserOwner]
 
 
-@method_decorator(extend_schema(operation_id='회원가입'), name="post")
+@method_decorator(extend_schema(summary='회원가입'), name="post")
 class SignupView(generics.CreateAPIView):
     serializer_class = SignupSerializer
     authentication_classes = []
@@ -28,7 +28,7 @@ class ResetPasswordView(mixins.UpdateModelMixin, generics.GenericAPIView):
     serializer_class = ResetPasswordSerializer
     authentication_classes = []
 
-    @extend_schema(operation_id='비밀번호 초기화')
+    @extend_schema(summary='비밀번호 초기화')
     def post(self, request, *args, **kwargs):
         super().update(request, *args, **kwargs)
 
